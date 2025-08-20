@@ -16,9 +16,5 @@ In your terminal run the command ```ollama pull llama3.2```.
 
 Check out the Ollama model [library](https://ollama.com/library) for list of latest LLMs.
 
-### Step 3: Run the node app in terminal or visit the github pages
-#### For node app
+### Step 3: Run the node app in terminal
 In ```/ollamachat``` directory, run ```npm run dev``` and follow the link to your browser.
-
-#### For github pages
-Visit the github pages for this repository.
