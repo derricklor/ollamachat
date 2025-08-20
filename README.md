@@ -1,12 +1,27 @@
-# React + Vite
+# Ollama and OpenAI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Ollama: Local Large Language Models (LLMs)
+Ollama is a powerful tool for running and managing open-source large language models (LLMs) on your local machine. It simplifies the setup process, allowing you to experiment with models like Llama 2, Mistral, and many others without needing a complex environment.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+### Step 1: Download Ollama
+Ollama is available for all major platforms. Choose your operating system and follow the instructions below.
 
-## Expanding the ESLint configuration
+macOS
+Download the [macOS](https://ollama.com/download/mac) application from the official Ollama website.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Windows
+Download the [Windows](https://ollama.com/download/windows) installer from the official Ollama website.
+
+### Step 2: Pull models
+In your terminal run the command ```ollama pull llama3.2```.
+
+Check out the Ollama model [library](https://ollama.com/library) for list of latest LLMs.
+
+### Step 3: Run the node app in terminal or visit the github pages
+#### For node app
+In ```/ollamachat``` directory, run ```npm run dev``` and follow the link to your browser.
+
+#### For github pages
+Visit the github pages for this repository.
