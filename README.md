@@ -1,4 +1,5 @@
 # Ollama and OpenAI
+This app allows you to chat directly with the local models downloaded with Ollama in the web browser.
 
 ## Ollama: Local Large Language Models (LLMs)
 Ollama is a powerful tool for running and managing open-source large language models (LLMs) on your local machine. It simplifies the setup process, allowing you to experiment with models like Llama 2, Mistral, and many others without needing a complex environment.
@@ -8,11 +9,7 @@ Ollama is a powerful tool for running and managing open-source large language mo
 ### Step 1: Download Ollama
 Ollama is available for all major platforms. Choose your operating system and follow the instructions below.
 
-macOS
-Download the [macOS](https://ollama.com/download/mac) application from the official Ollama website.
-
-Windows
-Download the [Windows](https://ollama.com/download/windows) installer from the official Ollama website.
+Download the [installer](https://ollama.com/download) from the official Ollama website.
 
 ### Step 2: Pull models
 In your terminal run the command ```ollama pull llama3.2```.
