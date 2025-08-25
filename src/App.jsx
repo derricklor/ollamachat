@@ -19,6 +19,7 @@ export default function App() {
     const [availableModels, setAvailableModels] = useState([])
     const [error, setError] = useState(null)
     const chatEndRef = useRef(null);
+    const [storageModel, setStorageModel] = useState(localStorage.getItem("modelSelected") || "")
 
     async function fetchAvailableModels() {
         try {
@@ -28,7 +29,7 @@ export default function App() {
             setmodelName(models[0] || "llama3.2:latest") // Set default model if available
         } catch (error) {
             console.error('Error fetching available models:', error)
-            setError('Failed to fetch available models. Please check your Ollama server.')
+            setError('Failed to fetch available models. Please check your local Ollama server.')
         }
     }
 
@@ -45,9 +46,27 @@ export default function App() {
             const chatCompletion = await openai.chat.completions.create({
                 messages: updatedHistory,
                 model: model,
+                stream: true,
             })
-            const assistantMessage = chatCompletion.choices[0].message.content;
-            setChatHistory(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
+            for await (const chunk of chatCompletion) {
+                const chunkMessage = chunk.choices[0].delta?.content || '';
+                if (chunkMessage) {
+                    setChatHistory(prev => {
+                        const lastMessage = prev[prev.length - 1]; // get the element at the last index
+                        if (lastMessage?.role === 'assistant') {
+                            // Append to the last assistant message
+                            const updatedLastMessage = { ...lastMessage, content: lastMessage.content + chunkMessage };
+                            return [...prev.slice(0, -1), updatedLastMessage]; // slice to remove last element and add updated
+                        } else {
+                            // Add a new assistant message
+                            return [...prev, { role: 'assistant', content: chunkMessage }];
+                        }
+                    });
+                }
+            }
+            // If not using streaming, uncomment below:
+            // const assistantMessage = chatCompletion.choices[0].message.content;
+            // setChatHistory(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
 
         } catch (error) {
             console.error('Error fetching chat completion:', error)
@@ -72,10 +91,10 @@ export default function App() {
                 <div className="col-start-1">
                     <div className="w-full max-w-2xl bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col">
                         <div>
-                            <h4 className="text-lg font-semibold">Select a model:</h4>
+                            <h4 className="text-lg font-semibold">Select a model: {storageModel}</h4>
                             <select
                                 value={modelName}
-                                onChange={(e) => setmodelName(e.target.value)}
+                                onChange={(e) => {setmodelName(e.target.value); setStorageModel(e.target.value); localStorage.setItem("modelSelected", e.target.value)}}
                                 className="mt-2 w-full p-2 rounded bg-gray-600 text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 {availableModels.map((model, idx) => (
