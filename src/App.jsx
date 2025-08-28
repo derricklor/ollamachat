@@ -1,5 +1,5 @@
 import { use, useEffect, useState, useRef } from 'react'
-
+import { suggData } from './assets/suggestions'
 import OpenAI from 'openai'
 
 const openai = new OpenAI({
@@ -11,6 +11,7 @@ const openai = new OpenAI({
 })
 
 
+
 export default function App() {
     const [modelName, setmodelName] = useState('')
     const [userInput, setUserInput] = useState('')
@@ -20,6 +21,7 @@ export default function App() {
     const [error, setError] = useState(null)
     const chatEndRef = useRef(null);
     const [storageModel, setStorageModel] = useState(localStorage.getItem("modelSelected") || "")
+
 
     async function fetchAvailableModels() {
         try {
@@ -90,26 +92,38 @@ export default function App() {
             <div className="w-full max-w-6xl grid grid-cols-3 justify-items-center gap-4">
                 <div className="col-start-1">
                     <div className="w-full max-w-2xl bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col">
-                        <div>
-                            <h4 className="text-lg font-semibold">Select a model: {storageModel}</h4>
-                            <select
-                                value={modelName}
-                                onChange={(e) => {setmodelName(e.target.value); setStorageModel(e.target.value); localStorage.setItem("modelSelected", e.target.value)}}
-                                className="mt-2 w-full p-2 rounded bg-gray-600 text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                {availableModels.map((model, idx) => (
-                                    <option key={idx} value={model}>
-                                        {model}
-                                    </option>
-                                ))}
-                            </select>
-                            <small className="text-gray-400">(Pulled models will be shown here)</small>
-                        </div>
+                        
+                        <h4 className="text-lg font-semibold">Select a model: {storageModel}</h4>
+                        <select
+                            value={modelName}
+                            onChange={(e) => {setmodelName(e.target.value); setStorageModel(e.target.value); localStorage.setItem("modelSelected", e.target.value)}}
+                            className="mt-2 w-full p-2 rounded bg-gray-600 text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            {availableModels.map((model, idx) => (
+                                <option key={idx} value={model}>
+                                    {model}
+                                </option>
+                            ))}
+                        </select>
+                        <small className="text-gray-400">(Pulled models will be shown here)</small>
                         {error && <p className="text-red-500 mt-2">{error}</p>}
+                        
+                    </div>
+                    <div className="mt-2 w-full max-w-2xl bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col">
+                        Suggestions
+                        {
+                            suggData.map((obj, idx) => (
+                                obj.data.map((items, idy) => (
+                                    <button key={idy} onClick={() => getChatCompletion(items, modelName)}
+                                        className="m-0.5 w-full p-2 rounded bg-gray-600 text-white border border-gray-500"
+                                    >{items}</button>
+                                ))
+                            ))
+                        }
                     </div>
                 </div>
 
-                <div className="w-full col-span-2 max-w-2xl bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col">
+                <div className="col-start-2 w-full col-span-2 max-w-2xl bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col">
                     <div className="flex justify-between items-center mb-4">
                         <h4 className="text-lg font-semibold">Chat History</h4>
                         <button
@@ -153,7 +167,7 @@ export default function App() {
                         </button>
                     </div>
                 </div>
-
+                
             </div>
         </div>
     )
