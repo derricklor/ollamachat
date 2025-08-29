@@ -18,3 +18,15 @@ Check out the Ollama model [library](https://ollama.com/library) for list of lat
 
 ### Step 3: Run the node app in terminal
 In ```/ollamachat``` directory, run ```npm run dev``` and follow the link to your browser.
+
+# How to use
+## Select LLM model
+![select model](./public/modeloptions.png)
+Download models from the Ollama LLM [repository](https://ollama.com/library).
+If no model is downloaded, no options will be available to be selected. 
+
+## Choose some template options to start chatting with the local model.
+![template options](./public/templateoptions.png)
+
+## Or start typing in the chat box to make your own conversation.
+![chat box](./public/chat.png)
